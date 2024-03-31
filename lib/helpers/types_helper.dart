@@ -22,6 +22,10 @@ class TypesHelper {
     'fairy': '#D685AD',
   };
 
+  static Color getTypeColour(String type) {
+    return hexToColor(colours[type]!);
+  }
+
   static Color getMainColour(List<String> types) {
     for (final type in types) {
       if (colours.containsKey(type)) {

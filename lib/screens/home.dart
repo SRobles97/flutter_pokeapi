@@ -8,8 +8,14 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: Text('Hello world'),
-      ),
+          child: TextButton.icon(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+              ),
+              onPressed: () {},
+              icon: Icon(Icons.add),
+              label: Text('Add All Pokemons'))),
     );
   }
 }

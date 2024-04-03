@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_flutter_app/helpers/types_helper.dart';
+import 'package:pokemon_flutter_app/models/stats.dart';
 
 class Pokemon {
   final int id;
@@ -11,6 +12,7 @@ class Pokemon {
   final List<String> types;
   final String latestCryUrl;
   final Color mainColor;
+  final Stats stats;
 
   Pokemon(
       {required this.id,
@@ -21,7 +23,8 @@ class Pokemon {
       required this.spriteUrl,
       required this.types,
       required this.latestCryUrl,
-      required this.mainColor});
+      required this.mainColor,
+      required this.stats});
 
   factory Pokemon.fromJson(Map<String, dynamic> json) {
     final types = <String>[];
@@ -32,13 +35,14 @@ class Pokemon {
     return Pokemon(
       id: json['id'],
       name: json['name'],
-      height: json['height'].toDouble(),
-      weight: json['weight'].toDouble(),
+      height: json['height'].toDouble() / 10,
+      weight: json['weight'].toDouble() / 10,
       imageUrl: json['sprites']['other']['official-artwork']['front_default'],
       spriteUrl: json['sprites']['front_default'],
       types: types,
       latestCryUrl: json['cries']['latest'],
       mainColor: TypesHelper.getMainColour(types),
+      stats: Stats.fromList(json['stats']),
     );
   }
 }

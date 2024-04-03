@@ -8,7 +8,7 @@ class PokemonServices {
   static const String baseUrl = 'https://pokeapi.co/api/v2/pokemon';
 
   static Future<List<Pokemon>> fetchOriginalPokemon() async {
-    final response = await http.get(Uri.parse('$baseUrl?limit=5'));
+    final response = await http.get(Uri.parse('$baseUrl?limit=20'));
     if (response.statusCode == 200) {
       final List<Pokemon> pokemonList = [];
       final Map<String, dynamic> jsonData = jsonDecode(response.body);

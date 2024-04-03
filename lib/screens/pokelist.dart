@@ -12,9 +12,15 @@ class PokeList extends ConsumerWidget {
     final pokemonFuture = ref.watch(pokemonProvider);
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: const Text('PokeList'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {},
+          ),
+        ],
       ),
       body: pokemonFuture.when(
         data: (pokemonList) {

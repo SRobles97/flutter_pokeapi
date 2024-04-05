@@ -63,7 +63,7 @@ class PokeCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    StyleHelper.firstLetterUppercased(pokemon.name),
+                    StyleHelper.firstLetterUpperCased(pokemon.name),
                     style: Theme.of(context).textTheme.displayLarge,
                   ),
                   Row(
@@ -71,7 +71,7 @@ class PokeCard extends StatelessWidget {
                         .map((type) => Padding(
                               padding: const EdgeInsets.only(right: 8.0),
                               child: TypeCard(
-                                  type: StyleHelper.firstLetterUppercased(type),
+                                  type: StyleHelper.firstLetterUpperCased(type),
                                   color: TypesHelper.getTypeColour(type)),
                             ))
                         .toList(),

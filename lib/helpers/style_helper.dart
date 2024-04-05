@@ -5,7 +5,7 @@ class StyleHelper {
     return '#${id.toString().padLeft(3, '0')}';
   }
 
-  static String firstLetterUppercased(String text) {
+  static String firstLetterUpperCased(String text) {
     return text[0].toUpperCase() + text.substring(1);
   }
 
@@ -30,12 +30,12 @@ class StyleHelper {
   );
 
   static ThemeData theme = ThemeData(
-    colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF9E2A2B)),
-    brightness: Brightness.light,
-    appBarTheme: const AppBarTheme(
-      backgroundColor: Color(0xFF9E2A2B),
-      foregroundColor: Colors.white,
-    ),
-    textTheme: _textTheme,
-  );
+      colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF9E2A2B)),
+      brightness: Brightness.light,
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Color(0xFF9E2A2B),
+        foregroundColor: Colors.white,
+      ),
+      textTheme: _textTheme,
+      useMaterial3: true);
 }

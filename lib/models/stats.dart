@@ -44,6 +44,9 @@ class Stats {
     );
   }
 
+  int get total =>
+      hp + attack + defense + specialAttack + specialDefense + speed;
+
   Map<String, int> toMap() {
     return {
       'HP': hp,
@@ -53,5 +56,16 @@ class Stats {
       'SP.DEF': specialDefense,
       'SPD': speed,
     };
+  }
+
+  static fromMap(Map<String, dynamic> map) {
+    return Stats(
+      hp: map['hp'],
+      attack: map['attack'],
+      defense: map['defense'],
+      specialAttack: map['special_attack'],
+      specialDefense: map['special_defense'],
+      speed: map['speed'],
+    );
   }
 }

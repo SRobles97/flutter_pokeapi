@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pokemon_flutter_app/screens/search.dart';
 import 'package:pokemon_flutter_app/widgets/poke_card.dart';
 
 import '../providers/pokemon_provider.dart';
 
 class PokeList extends ConsumerWidget {
-  const PokeList({Key? key}) : super(key: key);
+  const PokeList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final pokemonFuture = ref.watch(pokemonProvider);
+    var size = MediaQuery.of(context).size;
+    final pokemonList = ref.watch(pokemonProvider);
+
+    if (pokemonList.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('PokeList'),
+        ),
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -18,26 +29,25 @@ class PokeList extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
-            onPressed: () {},
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: SearchScreen(
+                  pokemonList: pokemonList,
+                ),
+              );
+            },
           ),
         ],
       ),
-      body: pokemonFuture.when(
-        data: (pokemonList) {
-          return GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-            ),
-            itemCount: pokemonList.length,
-            itemBuilder: (context, index) {
-              return PokeCard(pokemon: pokemonList[index]);
-            },
-          );
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stackTrace) => Center(
-          child: Text('Error: $error'),
+      body: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: size.width < 600 ? 2 : 4,
         ),
+        itemCount: pokemonList.length,
+        itemBuilder: (context, index) {
+          return PokeCard(pokemon: pokemonList[index]);
+        },
       ),
     );
   }

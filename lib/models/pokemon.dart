@@ -9,6 +9,7 @@ class Pokemon {
   final double weight;
   final String imageUrl;
   final String spriteUrl;
+  String? flavorText;
   final List<String> types;
   final String latestCryUrl;
   final Color mainColor;
@@ -21,6 +22,7 @@ class Pokemon {
       required this.weight,
       required this.imageUrl,
       required this.spriteUrl,
+      this.flavorText,
       required this.types,
       required this.latestCryUrl,
       required this.mainColor,

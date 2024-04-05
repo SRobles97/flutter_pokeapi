@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:pokemon_flutter_app/helpers/style_helper.dart';
 import 'package:pokemon_flutter_app/helpers/types_helper.dart';
 import 'package:pokemon_flutter_app/models/pokemon.dart';
@@ -25,6 +23,7 @@ class PokeDetails extends StatelessWidget {
         urlImage: pokemon.imageUrl,
         pokeName: pokemon.name,
         preferredSize: Size.fromHeight(size.height * 0.3),
+        pokemonHeight: pokemon.height,
         actions: [
           IconButton(
             icon: const Icon(Icons.favorite_border),
@@ -66,6 +65,33 @@ class PokeDetails extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            'Description',
+            style: Theme.of(context).textTheme.displayLarge,
+          ),
+          const SizedBox(height: 10),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            padding: const EdgeInsets.all(20),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                pokemon.flavorText ?? 'No description available',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            'Details',
+            style: Theme.of(context).textTheme.displayLarge,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -75,22 +101,8 @@ class PokeDetails extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Text(
-            'Description',
+            'Evolution Chain',
             style: Theme.of(context).textTheme.displayLarge,
-          ),
-          const SizedBox(height: 10),
-          Card(
-            color: Theme.of(context).colorScheme.primary,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Text(
-                pokemon.name,
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-            ),
           ),
         ],
       ),
@@ -117,8 +129,17 @@ class PokeDetails extends StatelessWidget {
               ),
               width: double.infinity,
               height: size.height * 0.4,
-              child:
-                  StatsBarChart(stats: pokemon.stats, color: pokemon.mainColor))
+              child: StatsBarChart(
+                  stats: pokemon.stats,
+                  color: pokemon.mainColor.withAlpha(200))),
+          const SizedBox(height: 5),
+          Center(
+            child: Text(
+              'TOTAL: ${pokemon.stats.total}',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.displayLarge,
+            ),
+          ),
         ],
       ),
     );
@@ -149,7 +170,7 @@ class PokeDetails extends StatelessWidget {
             ),
             Text(
               '${pokemon.height}m',
-              style: Theme.of(context).textTheme.displayLarge,
+              style: Theme.of(context).textTheme.displayMedium,
             ),
           ],
         ),
@@ -162,7 +183,7 @@ class PokeDetails extends StatelessWidget {
             ),
             Text(
               '${pokemon.weight}kg',
-              style: Theme.of(context).textTheme.displayLarge,
+              style: Theme.of(context).textTheme.displayMedium,
             ),
           ],
         ),

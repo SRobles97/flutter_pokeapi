@@ -6,24 +6,23 @@ class TypeCard extends StatelessWidget {
   final bool displayLarge;
 
   const TypeCard(
-      {Key? key,
+      {super.key,
       required this.type,
       required this.color,
-      this.displayLarge = false})
-      : super(key: key);
+      this.displayLarge = false});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       color: color,
       child: Padding(
-        padding: const EdgeInsets.all(5.0),
+        padding: const EdgeInsets.all(12.0),
         child: Text(
           type,
           style: displayLarge
               ? Theme.of(context).textTheme.displayLarge!.copyWith(
                     color: Colors.white,
-                    fontSize: 28,
+                    fontSize: 20,
                   )
               : Theme.of(context).textTheme.bodySmall,
         ),

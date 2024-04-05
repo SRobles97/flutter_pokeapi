@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -9,6 +8,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String urlImage;
   final List<Widget> actions;
   final String pokeName;
+  final double pokemonHeight;
 
   const CustomAppBar({
     super.key,
@@ -17,15 +17,26 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.urlImage,
     required this.actions,
     required this.pokeName,
+    required this.pokemonHeight,
     this.preferredSize = const Size.fromHeight(300.0),
   });
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
     String toUpper(String text) {
       return text.toUpperCase();
+    }
+
+    Widget pokemonArtwork() {
+      return Expanded(
+        child: ClipRect(
+          child: Image.network(
+            width: pokemonHeight * 100,
+            height: pokemonHeight * 100,
+            urlImage,
+          ),
+        ),
+      );
     }
 
     return AppBar(
@@ -39,11 +50,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Expanded(
-                child: Image.network(
-                  urlImage,
-                ),
-              ),
+              pokemonArtwork(),
               Text(
                 toUpper(pokeName),
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(

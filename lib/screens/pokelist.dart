@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pokemon_flutter_app/models/pokemon.dart';
 import 'package:pokemon_flutter_app/screens/search.dart';
 import 'package:pokemon_flutter_app/widgets/poke_card.dart';
 
@@ -11,9 +12,9 @@ class PokeList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var size = MediaQuery.of(context).size;
-    final pokemonList = ref.watch(pokemonProvider);
+    final pokemonState = ref.watch(pokemonProvider);
 
-    if (pokemonList.isEmpty) {
+    if (pokemonState.pokemons.isEmpty) {
       return Scaffold(
         appBar: AppBar(
           title: const Text('PokeList'),
@@ -21,7 +22,6 @@ class PokeList extends ConsumerWidget {
         body: const Center(child: CircularProgressIndicator()),
       );
     }
-
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -33,7 +33,12 @@ class PokeList extends ConsumerWidget {
               showSearch(
                 context: context,
                 delegate: SearchScreen(
-                  pokemonList: pokemonList,
+                  pokemonList: pokemonState.pokemons,
+                  onSelectPokemon: (Pokemon pokemon) {
+                    ref
+                        .read(pokemonProvider.notifier)
+                        .setCurrentPokemon(pokemon.id);
+                  },
                 ),
               );
             },
@@ -44,9 +49,9 @@ class PokeList extends ConsumerWidget {
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: size.width < 600 ? 2 : 4,
         ),
-        itemCount: pokemonList.length,
+        itemCount: pokemonState.pokemons.length,
         itemBuilder: (context, index) {
-          return PokeCard(pokemon: pokemonList[index]);
+          return PokeCard(pokemon: pokemonState.pokemons[index]);
         },
       ),
     );

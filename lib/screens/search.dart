@@ -6,8 +6,9 @@ import '../models/stats.dart';
 
 class SearchScreen extends SearchDelegate<Pokemon> {
   final List<Pokemon> pokemonList;
+  final Function(Pokemon) onSelectPokemon;
 
-  SearchScreen({required this.pokemonList});
+  SearchScreen({required this.pokemonList, required this.onSelectPokemon});
 
   @override
   appBarTheme(BuildContext context) {
@@ -101,9 +102,10 @@ class SearchScreen extends SearchDelegate<Pokemon> {
             title: Text(results[index].name),
             leading: Image.network(results[index].imageUrl),
             onTap: () {
+              onSelectPokemon(results[index]);
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => PokeDetails(pokemon: results[index]),
+                  builder: (context) => const PokeDetails(),
                 ),
               );
             });

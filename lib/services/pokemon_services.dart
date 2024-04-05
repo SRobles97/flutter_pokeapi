@@ -55,7 +55,7 @@ class PokemonServices {
   static Future<List<Pokemon>> fetchOriginalPokemonFromDB() async {
     final db = await DBHelper.getDatabase();
     final List<Map<String, dynamic>> maps =
-        await db.query('pokemon', where: 'id <= ?', whereArgs: [151]);
+        await db.query('pokemon', where: 'id <= ?', whereArgs: [1025]);
 
     List<Pokemon> pokemonList = [];
     for (var map in maps) {

@@ -1,4 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:transparent_image/transparent_image.dart';
+
+enum PokemonSize { small, medium, large }
+
+PokemonSize determinePokemonSize(double height, double weight) {
+  const double heightLimitForMedium = 0.8;
+  const double weightLimitForMedium = 25.0;
+  const double heightLimitForLarge = 1.1;
+  const double weightLimitForLarge = 40.0;
+
+  if (height >= heightLimitForLarge && weight >= weightLimitForLarge) {
+    return PokemonSize.large;
+  } else if (height >= heightLimitForMedium && weight >= weightLimitForMedium) {
+    return PokemonSize.medium;
+  } else {
+    return PokemonSize.small;
+  }
+}
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -9,6 +27,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> actions;
   final String pokeName;
   final double pokemonHeight;
+  final double pokemonWeight;
 
   const CustomAppBar({
     super.key,
@@ -18,6 +37,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.actions,
     required this.pokeName,
     required this.pokemonHeight,
+    required this.pokemonWeight,
     this.preferredSize = const Size.fromHeight(300.0),
   });
 
@@ -28,12 +48,45 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     }
 
     Widget pokemonArtwork() {
+      PokemonSize size = determinePokemonSize(pokemonHeight, pokemonWeight);
+      double width, height;
+      switch (size) {
+        case PokemonSize.small:
+          width = height = 100;
+          break;
+        case PokemonSize.medium:
+          width = height = 150;
+          break;
+        case PokemonSize.large:
+          width = height = 200;
+          break;
+      }
+
       return Expanded(
         child: ClipRect(
-          child: Image.network(
-            width: pokemonHeight * 100,
-            height: pokemonHeight * 100,
-            urlImage,
+          child: GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return Dialog(
+                      surfaceTintColor: Colors.transparent,
+                      backgroundColor: Colors.transparent,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Image.network(urlImage, fit: BoxFit.contain),
+                      ));
+                },
+              );
+            },
+            child: FadeInImage.memoryNetwork(
+              width: width,
+              height: height,
+              placeholder: kTransparentImage,
+              image: urlImage,
+            ),
           ),
         ),
       );
@@ -42,7 +95,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Text(title),
       actions: actions,
-      centerTitle: true,
+      centerTitle: false,
       flexibleSpace: Hero(
         tag: heroTag,
         child: SafeArea(

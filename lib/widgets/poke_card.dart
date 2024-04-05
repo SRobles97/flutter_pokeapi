@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokemon_flutter_app/helpers/style_helper.dart';
 
 import 'package:pokemon_flutter_app/helpers/types_helper.dart';
 import 'package:pokemon_flutter_app/models/pokemon.dart';
 import 'package:pokemon_flutter_app/widgets/type_card.dart';
+import 'package:transparent_image/transparent_image.dart';
 
+import '../providers/pokemon_provider.dart';
 import '../screens/pokedetails.dart';
 
-class PokeCard extends StatelessWidget {
+class PokeCard extends ConsumerWidget {
   final Pokemon pokemon;
 
   const PokeCard({super.key, required this.pokemon});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
+        ref.read(pokemonProvider.notifier).setCurrentPokemon(pokemon.id);
+
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => PokeDetails(pokemon: pokemon),
+            builder: (context) => const PokeDetails(),
           ),
         );
       },
@@ -49,10 +54,11 @@ class PokeCard extends StatelessWidget {
                 ),
                 child: Hero(
                   tag: pokemon.id,
-                  child: Image.network(
-                    pokemon.imageUrl,
+                  child: FadeInImage.memoryNetwork(
                     width: 100,
                     height: 100,
+                    placeholder: kTransparentImage,
+                    image: pokemon.imageUrl,
                   ),
                 ),
               ),
